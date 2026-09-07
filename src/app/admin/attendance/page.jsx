@@ -3,6 +3,25 @@
 import { useState, useEffect } from 'react';
 import API_BASE_URL from '@/lib/api';
 
+// বাংলাদেশ সময় (Asia/Dhaka) অনুযায়ী সময় ফরম্যাট করার ফাংশন
+const formatTime = (timeValue) => {
+  if (!timeValue || timeValue === '-') return '-';
+
+  const date = new Date(timeValue);
+  
+  // যদি সময়টি ISO string / timestamp হয় তবে Asia/Dhaka অনুযায়ী কনভার্ট করবে
+  if (!isNaN(date.getTime())) {
+    return date.toLocaleTimeString('en-US', {
+      timeZone: 'Asia/Dhaka',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
+  }
+
+  return timeValue;
+};
+
 export default function AttendancePage() {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +32,6 @@ export default function AttendancePage() {
       try {
         setLoading(true);
 
-        // URL ঠিক করা হয়েছে: /attendance/logs
         const url = selectedDate 
           ? `${API_BASE_URL}/attendance/logs?date=${selectedDate}`
           : `${API_BASE_URL}/attendance/logs`;
@@ -78,8 +96,8 @@ export default function AttendancePage() {
                   <td className="p-3.5 text-zinc-400 font-mono">{log.date}</td>
                   <td className="p-3.5 font-mono text-zinc-400">{log.employeeId}</td>
                   <td className="p-3.5 font-medium text-white">{log.name}</td>
-                  <td className="p-3.5 text-emerald-400 font-mono">{log.checkIn || '-'}</td>
-                  <td className="p-3.5 text-amber-400 font-mono">{log.checkOut || '-'}</td>
+                  <td className="p-3.5 text-emerald-400 font-mono">{formatTime(log.checkIn)}</td>
+                  <td className="p-3.5 text-amber-400 font-mono">{formatTime(log.checkOut)}</td>
                   <td className="p-3.5">
                     <span className={`px-2 py-0.5 rounded-md text-[10px] font-semibold ${
                       log.status === 'On Time' 

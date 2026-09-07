@@ -23,7 +23,7 @@ export default function QrCodePage() {
             className="w-60 h-60"
           />
           <p className="text-black font-bold text-lg mt-4">SCAN TO CHECK IN / OUT</p>
-          <p className="text-xs text-zinc-500 font-mono mt-1">{qrTargetUrl}</p>
+          <p className="text-xs text-zinc-500 font-mono mt-1"></p>
         </div>
 
         <button
