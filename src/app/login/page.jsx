@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,8 +17,8 @@ export default function LoginPage() {
     setLoading(true);
 
     setTimeout(() => {
-      // Mock Credential Validation
-      if (email === 'admin@company.com' && password === 'admin123') {
+      // Updated Admin Credential Validation
+      if (email.trim() === 'admin@gmail.com' && password === 'admin@1234') {
         localStorage.setItem('isAdmin', 'true');
         router.push('/admin');
       } else {
@@ -48,7 +49,7 @@ export default function LoginPage() {
             </label>
             <input
               type="email"
-              placeholder="admin@company.com"
+              placeholder="admin@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-[#1a1a1e] text-sm text-white px-3.5 py-2.5 rounded-xl border border-[#27272a] focus:outline-none focus:border-zinc-500 placeholder-zinc-600"
@@ -80,9 +81,9 @@ export default function LoginPage() {
         </form>
 
         <div className="pt-2 text-center">
-          <a href="/scan" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+          <Link href="/scan" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
             Go back to Employee Scan Page
-          </a>
+          </Link>
         </div>
       </div>
     </div>

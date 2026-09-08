@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import API_BASE_URL from '@/lib/api';
 
 export default function ScanPage() {
-  const [activeTab, setActiveTab] = useState('pin');
   const [employeeId, setEmployeeId] = useState('');
   const [pin, setPin] = useState('');
   const [type, setType] = useState('in');
@@ -119,6 +119,16 @@ export default function ScanPage() {
             {loading ? 'Processing...' : `Confirm Check ${type === 'in' ? 'In' : 'Out'}`}
           </button>
         </form>
+
+        {/* Admin Login Button */}
+        <div className="pt-4 border-t border-[#1e1e22] text-center">
+          <Link
+            href="/login"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#1a1a1e] hover:bg-[#222226] border border-[#27272a] hover:border-zinc-500 text-xs font-medium text-zinc-300 hover:text-white transition-all w-full"
+          >
+            🔑 Admin Login
+          </Link>
+        </div>
       </div>
     </div>
   );

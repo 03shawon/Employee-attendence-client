@@ -12,10 +12,9 @@ export default function AdminDashboard() {
     records: []
   });
   const [loading, setLoading] = useState(true);
-  const [reload, setReload] = useState(0); // ম্যানুয়ালি রিফ্রেশ করার জন্য স্টেট
+  const [reload, setReload] = useState(0);
 
   useEffect(() => {
-    // useEffect-এর ভেতরেই ফাংশনটি ডিক্লেয়ার করা হয়েছে
     const fetchStats = async () => {
       try {
         const res = await fetch(`${API_BASE_URL}/attendance/stats`);
@@ -30,7 +29,7 @@ export default function AdminDashboard() {
 
     fetchStats();
 
-    const interval = setInterval(fetchStats, 10000); // ১০ সেকেন্ড পর পর অটো-রিফ্রেশ
+    const interval = setInterval(fetchStats, 10000);
     return () => clearInterval(interval);
   }, [reload]);
 
@@ -85,6 +84,7 @@ export default function AdminDashboard() {
                 <th className="p-3.5 font-semibold">Employee ID</th>
                 <th className="p-3.5 font-semibold">Name</th>
                 <th className="p-3.5 font-semibold">Department</th>
+                <th className="p-3.5 font-semibold">Designation</th>
                 <th className="p-3.5 font-semibold">Check In</th>
                 <th className="p-3.5 font-semibold">Check Out</th>
                 <th className="p-3.5 font-semibold">Status</th>
@@ -96,7 +96,8 @@ export default function AdminDashboard() {
                   <tr key={row._id} className="hover:bg-[#1a1a1e]/50 transition-colors">
                     <td className="p-3.5 font-mono text-zinc-400">{row.employeeId}</td>
                     <td className="p-3.5 font-medium text-white">{row.name}</td>
-                    <td className="p-3.5">{row.department}</td>
+                    <td className="p-3.5">{row.department || '-'}</td>
+                    <td className="p-3.5">{row.designation || '-'}</td>
                     <td className="p-3.5 text-emerald-400 font-mono">{row.checkIn || '-'}</td>
                     <td className="p-3.5 text-amber-400 font-mono">{row.checkOut || '-'}</td>
                     <td className="p-3.5">
@@ -114,7 +115,7 @@ export default function AdminDashboard() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="p-6 text-center text-zinc-500">
+                  <td colSpan={7} className="p-6 text-center text-zinc-500">
                     No check-ins recorded for today yet.
                   </td>
                 </tr>
