@@ -2,17 +2,25 @@
 
 import { useState, useEffect } from 'react';
 import API_BASE_URL from '@/lib/api';
+import LeaveModal from '@/components/admin/LeaveModal';
+import FieldWorkModal from '@/components/admin/FieldWorkModal';
+import FieldWorkDetails from '@/components/admin/FieldWorkDetails';
+import StatusBadge from '@/components/admin/StatusBadge';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
     totalEmployees: 0,
     presentToday: 0,
     lateToday: 0,
+    leaveToday: 0,
+    fieldWorkToday: 0,
     absentToday: 0,
     records: []
   });
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(0);
+  const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
+  const [isFieldWorkModalOpen, setIsFieldWorkModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -40,16 +48,30 @@ export default function AdminDashboard() {
           <h1 className="text-2xl font-bold tracking-tight text-white">Dashboard Overview</h1>
           <p className="text-xs text-zinc-400">Live attendance status for today</p>
         </div>
-        <button
-          onClick={() => setReload((prev) => prev + 1)}
-          className="px-3.5 py-2 text-xs font-medium bg-[#1a1a1e] hover:bg-[#27272a] border border-[#27272a] rounded-lg text-zinc-300 transition-colors"
-        >
-          🔄 Refresh
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => setIsLeaveModalOpen(true)}
+            className="px-3.5 py-2 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-colors shadow-md"
+          >
+            + Assign Leave
+          </button>
+          <button
+            onClick={() => setIsFieldWorkModalOpen(true)}
+            className="px-3.5 py-2 text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg transition-colors shadow-md"
+          >
+            🚗 + Assign Field Work
+          </button>
+          <button
+            onClick={() => setReload((prev) => prev + 1)}
+            className="px-3.5 py-2 text-xs font-medium bg-[#1a1a1e] hover:bg-[#27272a] border border-[#27272a] rounded-lg text-zinc-300 transition-colors"
+          >
+            🔄 Refresh
+          </button>
+        </div>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-6 gap-4">
         <div className="bg-[#121215] border border-[#1e1e22] rounded-xl p-4 space-y-1">
           <span className="text-xs font-medium text-zinc-400">Total Employees</span>
           <p className="text-2xl font-bold text-white">{loading ? '...' : stats.totalEmployees}</p>
@@ -63,6 +85,16 @@ export default function AdminDashboard() {
         <div className="bg-[#121215] border border-[#1e1e22] rounded-xl p-4 space-y-1">
           <span className="text-xs font-medium text-amber-400">Late Arrivals</span>
           <p className="text-2xl font-bold text-amber-400">{loading ? '...' : stats.lateToday}</p>
+        </div>
+
+        <div className="bg-[#121215] border border-[#1e1e22] rounded-xl p-4 space-y-1">
+          <span className="text-xs font-medium text-purple-400">On Leave</span>
+          <p className="text-2xl font-bold text-purple-400">{loading ? '...' : stats.leaveToday ?? 0}</p>
+        </div>
+
+        <div className="bg-[#121215] border border-[#1e1e22] rounded-xl p-4 space-y-1">
+          <span className="text-xs font-medium text-cyan-400">Field Work</span>
+          <p className="text-2xl font-bold text-cyan-400">{loading ? '...' : stats.fieldWorkToday ?? 0}</p>
         </div>
 
         <div className="bg-[#121215] border border-[#1e1e22] rounded-xl p-4 space-y-1">
@@ -87,6 +119,7 @@ export default function AdminDashboard() {
                 <th className="p-3.5 font-semibold">Designation</th>
                 <th className="p-3.5 font-semibold">Check In</th>
                 <th className="p-3.5 font-semibold">Check Out</th>
+                <th className="p-3.5 font-semibold">Field Work</th>
                 <th className="p-3.5 font-semibold">Status</th>
               </tr>
             </thead>
@@ -101,21 +134,16 @@ export default function AdminDashboard() {
                     <td className="p-3.5 text-emerald-400 font-mono">{row.checkIn || '-'}</td>
                     <td className="p-3.5 text-amber-400 font-mono">{row.checkOut || '-'}</td>
                     <td className="p-3.5">
-                      <span
-                        className={`px-2 py-0.5 rounded-md text-[10px] font-semibold ${
-                          row.status === 'On Time'
-                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                            : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                        }`}
-                      >
-                        {row.status}
-                      </span>
+                      <FieldWorkDetails record={row} />
+                    </td>
+                    <td className="p-3.5">
+                      <StatusBadge record={row} />
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={7} className="p-6 text-center text-zinc-500">
+                  <td colSpan={8} className="p-6 text-center text-zinc-500">
                     No check-ins recorded for today yet.
                   </td>
                 </tr>
@@ -124,6 +152,17 @@ export default function AdminDashboard() {
           </table>
         </div>
       </div>
+
+      <LeaveModal
+        isOpen={isLeaveModalOpen}
+        onClose={() => setIsLeaveModalOpen(false)}
+        onSuccess={() => setReload((prev) => prev + 1)}
+      />
+      <FieldWorkModal
+        isOpen={isFieldWorkModalOpen}
+        onClose={() => setIsFieldWorkModalOpen(false)}
+        onSuccess={() => setReload((prev) => prev + 1)}
+      />
     </div>
   );
 }

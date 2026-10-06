@@ -203,6 +203,16 @@
 import { useState, useEffect } from 'react';
 import API_BASE_URL from '@/lib/api';
 import LeaveModal from '@/components/admin/LeaveModal';
+import FieldWorkModal, { formatFieldWorkTime } from '@/components/admin/FieldWorkModal';
+import FieldWorkDetails, { isFieldWorkRecord } from '@/components/admin/FieldWorkDetails';
+import StatusBadge, { getDisplayStatus } from '@/components/admin/StatusBadge';
+
+const getStatusLabel = (log) => {
+  const status = getDisplayStatus(log);
+  return status === 'On Leave' && log.leaveType ? `${status} (${log.leaveType})` : status;
+};
+
+const csvCell = (value) => `"${String(value ?? '').replace(/"/g, '""')}"`;
 
 const formatTime = (timeValue) => {
   if (!timeValue || timeValue === '-') return '-';
@@ -225,6 +235,7 @@ export default function AttendancePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
+  const [isFieldWorkModalOpen, setIsFieldWorkModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
@@ -234,7 +245,7 @@ export default function AttendancePage() {
 
         let queryParams = [];
         if (selectedDate) queryParams.push(`date=${selectedDate}`);
-        if (statusFilter !== 'All') queryParams.push(`status=${statusFilter}`);
+        if (statusFilter !== 'All') queryParams.push(`status=${encodeURIComponent(statusFilter)}`);
 
         const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
         const res = await fetch(`${API_BASE_URL}/attendance/logs${queryString}`);
@@ -270,17 +281,22 @@ export default function AttendancePage() {
       return;
     }
 
-    const headers = ['Date', 'Employee ID', 'Name', 'Department', 'Designation', 'Check In', 'Check Out', 'Status'];
-    const rows = filteredLogs.map(log => [
-      log.date || '',
-      log.employeeId || '',
-      `"${log.name || ''}"`,
-      `"${log.department || '-'}"`,
-      `"${log.designation || '-'}"`,
-      `"${formatTime(log.checkIn)}"`,
-      `"${formatTime(log.checkOut)}"`,
-      log.status || ''
-    ]);
+    const headers = ['Date', 'Employee ID', 'Name', 'Department', 'Designation', 'Check In', 'Check Out', 'Field Work Reason', 'Field Work Time', 'Status'];
+    const rows = filteredLogs.map(log => {
+      const isFieldWork = isFieldWorkRecord(log);
+      return [
+        log.date || '',
+        log.employeeId || '',
+        csvCell(log.name),
+        csvCell(log.department || '-'),
+        csvCell(log.designation || '-'),
+        csvCell(formatTime(log.checkIn)),
+        csvCell(formatTime(log.checkOut)),
+        csvCell(isFieldWork ? log.fieldWorkReason || '-' : '-'),
+        csvCell(isFieldWork ? formatFieldWorkTime(log) || '-' : '-'),
+        csvCell(getStatusLabel(log))
+      ];
+    });
 
     const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' 
       + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
@@ -320,7 +336,8 @@ export default function AttendancePage() {
             <option value="All">All Status</option>
             <option value="On Time">On Time</option>
             <option value="Late">Late</option>
-            <option value="Leave">Leave</option>
+            <option value="On Leave">On Leave</option>
+            <option value="Field Work">Field Work</option>
           </select>
 
           <input
@@ -347,6 +364,13 @@ export default function AttendancePage() {
           </button>
 
           <button
+            onClick={() => setIsFieldWorkModalOpen(true)}
+            className="text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white px-3 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5"
+          >
+            🚗 + Assign Field Work
+          </button>
+
+          <button
             onClick={exportToCSV}
             className="text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5"
           >
@@ -366,13 +390,14 @@ export default function AttendancePage() {
               <th className="p-3.5 font-semibold">Designation</th>
               <th className="p-3.5 font-semibold">Check In</th>
               <th className="p-3.5 font-semibold">Check Out</th>
+              <th className="p-3.5 font-semibold">Field Work</th>
               <th className="p-3.5 font-semibold">Status</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#1e1e22] text-zinc-300">
             {loading ? (
               <tr>
-                <td colSpan={8} className="p-6 text-center text-zinc-500">Loading logs...</td>
+                <td colSpan={9} className="p-6 text-center text-zinc-500">Loading logs...</td>
               </tr>
             ) : filteredLogs.length > 0 ? (
               filteredLogs.map((log) => (
@@ -385,21 +410,16 @@ export default function AttendancePage() {
                   <td className="p-3.5 text-emerald-400 font-mono">{formatTime(log.checkIn)}</td>
                   <td className="p-3.5 text-amber-400 font-mono">{formatTime(log.checkOut)}</td>
                   <td className="p-3.5">
-                    <span className={`px-2 py-0.5 rounded-md text-[10px] font-semibold ${
-                      log.status === 'On Time' 
-                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
-                        : log.status === 'Leave'
-                        ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'
-                        : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                    }`}>
-                      {log.status === 'Leave' && log.leaveType ? `${log.status} (${log.leaveType})` : log.status}
-                    </span>
+                    <FieldWorkDetails record={log} />
+                  </td>
+                  <td className="p-3.5">
+                    <StatusBadge record={log} />
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={8} className="p-6 text-center text-zinc-500">No attendance records found.</td>
+                <td colSpan={9} className="p-6 text-center text-zinc-500">No attendance records found.</td>
               </tr>
             )}
           </tbody>
@@ -410,6 +430,13 @@ export default function AttendancePage() {
       <LeaveModal
         isOpen={isLeaveModalOpen}
         onClose={() => setIsLeaveModalOpen(false)}
+        onSuccess={() => setRefreshKey((prev) => prev + 1)}
+      />
+
+      {/* Assign Field Work Modal */}
+      <FieldWorkModal
+        isOpen={isFieldWorkModalOpen}
+        onClose={() => setIsFieldWorkModalOpen(false)}
         onSuccess={() => setRefreshKey((prev) => prev + 1)}
       />
     </div>
