@@ -49,7 +49,7 @@ export default function Sidebar() {
               onClick={() => setIsAssetShebaOpen((isOpen) => !isOpen)}
               className="flex w-full items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium text-zinc-400 transition-all duration-150 hover:text-white hover:bg-[#18181b]"
             >
-              <span>Asset sheba</span>
+              <span>Asset Sheba</span>
               <span aria-hidden="true">{isAssetShebaOpen ? '−' : '+'}</span>
             </button>
             {isAssetShebaOpen && (
@@ -69,6 +69,22 @@ export default function Sidebar() {
                   className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
                 >
                   All Payments
+                </a>
+                <a
+                  href="https://docs.google.com/spreadsheets/d/1Ja-fckGHeuFANcK6WFQwpzbdufAnhxxFzojrQHjGbBo/edit?gid=0#gid=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
+                >
+                  Marketing Expenses
+                </a>
+                <a
+                  href="https://docs.google.com/spreadsheets/d/1kLQrtHu8g3453BrvTuwOst1Daal2XD5MtAp6rTpA6RA/edit?gid=0#gid=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
+                >
+                  Office Expenses
                 </a>
               </div>
             )}
