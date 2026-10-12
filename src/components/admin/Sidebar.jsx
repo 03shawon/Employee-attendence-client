@@ -21,7 +21,7 @@ export default function Sidebar() {
     <aside className="w-64 shrink-0 bg-[#0c0c0e] border-r border-[#1e1e22] flex flex-col justify-between p-6 h-screen sticky top-0 select-none">
       <div>
         <h1 className="text-xl font-bold tracking-tight text-white mb-8">
-          Attendance Admin
+          Employee Management System
         </h1>
 
         <nav className="space-y-1.5">
@@ -71,7 +71,7 @@ export default function Sidebar() {
                   All Payments
                 </a>
                 <a
-                  href="https://docs.google.com/spreadsheets/d/1Ja-fckGHeuFANcK6WFQwpzbdufAnhxxFzojrQHjGbBo/edit?gid=0#gid=0"
+                  href="https://docs.google.com/spreadsheets/d/1PF9VEfgD_U13PZCKjykaLX8f9JQiRLv7/edit?gid=924638707#gid=924638707"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"

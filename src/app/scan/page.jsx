@@ -77,25 +77,11 @@ export default function ScanPage() {
 
       <div className="w-full max-w-md my-auto relative z-10">
         <div className="bg-[#121215]/80 backdrop-blur-2xl border border-[#27272a] rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl shadow-emerald-950/20">
-          {/* Header & Official Logo */}
-          <div className="text-center space-y-3">
-            {/* লোগো কনটেইনার */}
-            <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-white shadow-xl shadow-emerald-950/30 ring-4 ring-emerald-500/20">
-              <img
-                src="/logo.jpeg"
-                alt="Asset Sheba Logo"
-                className="h-16 sm:h-20 w-auto max-w-[220px] object-contain mx-auto"
-              />
-            </div>
-
-            <div>
-              <h1 className="text-2xl font-black tracking-tight bg-gradient-to-r from-white via-zinc-200 to-emerald-400 bg-clip-text text-transparent">
-                ASSET SHEBA
-              </h1>
-              <p className="text-[11px] font-semibold uppercase tracking-widest text-emerald-400/90 mt-1">
-                Official Attendance Portal
-              </p>
-            </div>
+          {/* Page Header */}
+          <div className="text-center">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-white via-zinc-200 to-emerald-400 bg-clip-text text-transparent">
+              Employee Management System
+            </h1>
           </div>
           {/* Attendance Action Tabs */}
           <div className="grid grid-cols-2 gap-2 bg-[#1a1a1e] p-1.5 rounded-2xl border border-[#27272a]">

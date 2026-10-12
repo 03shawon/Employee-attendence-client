@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -13,27 +12,11 @@ export default function Home() {
       {/* Main Container */}
       <div className="w-full max-w-xl my-auto relative z-10 space-y-8 py-8">
         
-        {/* Branding & Logo Header */}
+        {/* Page Header */}
         <div className="text-center space-y-4">
-          <div className="inline-block p-3 rounded-2xl bg-white shadow-2xl shadow-emerald-950/30 ring-4 ring-emerald-500/20">
-            <Image
-              src="/logo.jpeg"
-              alt="Asset Sheba Logo"
-              width={180}
-              height={70}
-              className="h-16 sm:h-20 w-auto object-contain mx-auto"
-              priority
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight bg-gradient-to-r from-white via-zinc-200 to-emerald-400 bg-clip-text text-transparent">
-              ASSET SHEBA
-            </h1>
-            <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-emerald-400/90">
-              Employee Attendance System
-            </p>
-          </div>
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight bg-gradient-to-r from-white via-zinc-200 to-emerald-400 bg-clip-text text-transparent">
+            Employee Management System
+          </h1>
 
           <p className="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto leading-relaxed">
             Welcome to Asset Sheba's official attendance portal. Please choose your module to proceed.
