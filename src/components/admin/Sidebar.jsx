@@ -63,6 +63,14 @@ export default function Sidebar() {
                   Daily Leads
                 </a>
                 <a
+                  href="https://docs.google.com/spreadsheets/d/1zMSGhbJLYXjAzNZyszLPlcvkLjJ5H8jr05QklnuPkdU/edit?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
+                >
+                  Lead Sheet
+                </a>
+                <a
                   href="https://docs.google.com/spreadsheets/d/14C2OfqHQQCWk-ZvFKq2TlLIG37fPuai3CogVRlomhTc/edit?gid=1466703151#gid=1466703151"
                   target="_blank"
                   rel="noopener noreferrer"
