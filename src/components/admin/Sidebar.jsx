@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const [isAssetShebaOpen, setIsAssetShebaOpen] = useState(true);
+  const [isAssetShebaOpen, setIsAssetShebaOpen] = useState(false);
 
   const navItems = [
     { name: 'Dashboard', path: '/admin' },
@@ -55,12 +55,36 @@ export default function Sidebar() {
             {isAssetShebaOpen && (
               <div className="ml-4 mt-1 space-y-1 border-l border-[#27272a] pl-3">
                 <a
+                  href="https://docs.google.com/spreadsheets/d/1zf2Nns8y5KXX_l06gtBfnPiGgnfUL_9VctVKJZXn45s/edit?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
+                >
+                  Client Service Sheet
+                </a>
+                <a
+                  href="https://app.clickup.com/1100380000034927/v/l/6-1100380000212744-1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
+                >
+                  It’s CRM Click Up
+                </a>
+                <a
                   href="https://docs.google.com/spreadsheets/d/1GsNbK1DrgyjyvuFtP9mDseCPwEaMzpqD/edit?gid=356596419#gid=356596419"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
                 >
                   Daily Leads
+                </a>
+                <a
+                  href="https://docs.google.com/spreadsheets/d/1sHCUze2anix0meGwy882OjZB-MhiYG2yzU7J1WQ8GWE/edit?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
+                >
+                  Leads Follow Up
                 </a>
                 <a
                   href="https://docs.google.com/spreadsheets/d/1zMSGhbJLYXjAzNZyszLPlcvkLjJ5H8jr05QklnuPkdU/edit?usp=sharing"
