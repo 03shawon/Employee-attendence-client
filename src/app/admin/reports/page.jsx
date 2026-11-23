@@ -91,6 +91,7 @@ export default function ReportsPage() {
             filtered = filtered.filter((item) => item.department === department);
           }
 
+          filtered.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
           setReportData(filtered);
 
           // স্ট্যাটাস হিসাব

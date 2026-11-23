@@ -272,7 +272,7 @@ export default function AttendancePage() {
   const filteredLogs = logs.filter(log =>
     log.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     log.employeeId?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  ).sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
 
   // CSV Export Function
   const exportToCSV = () => {

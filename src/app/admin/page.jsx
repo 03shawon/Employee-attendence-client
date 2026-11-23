@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import API_BASE_URL from '@/lib/api';
 import LeaveModal from '@/components/admin/LeaveModal';
 import FieldWorkModal from '@/components/admin/FieldWorkModal';
+import HomeOfficeModal from '@/components/admin/HomeOfficeModal';
 import FieldWorkDetails from '@/components/admin/FieldWorkDetails';
 import StatusBadge from '@/components/admin/StatusBadge';
 
@@ -21,6 +22,7 @@ export default function AdminDashboard() {
   const [reload, setReload] = useState(0);
   const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
   const [isFieldWorkModalOpen, setIsFieldWorkModalOpen] = useState(false);
+  const [isHomeOfficeModalOpen, setIsHomeOfficeModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -60,6 +62,12 @@ export default function AdminDashboard() {
             className="px-3.5 py-2 text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg transition-colors shadow-md"
           >
             🚗 + Assign Field Work
+          </button>
+          <button
+            onClick={() => setIsHomeOfficeModalOpen(true)}
+            className="px-3.5 py-2 text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors shadow-md"
+          >
+            🏠 + Assign Home Office
           </button>
           <button
             onClick={() => setReload((prev) => prev + 1)}
@@ -161,6 +169,11 @@ export default function AdminDashboard() {
       <FieldWorkModal
         isOpen={isFieldWorkModalOpen}
         onClose={() => setIsFieldWorkModalOpen(false)}
+        onSuccess={() => setReload((prev) => prev + 1)}
+      />
+      <HomeOfficeModal
+        isOpen={isHomeOfficeModalOpen}
+        onClose={() => setIsHomeOfficeModalOpen(false)}
         onSuccess={() => setReload((prev) => prev + 1)}
       />
     </div>
