@@ -55,6 +55,30 @@ export default function Sidebar() {
             {isAssetShebaOpen && (
               <div className="ml-4 mt-1 space-y-1 border-l border-[#27272a] pl-3">
                 <a
+                  href="https://docs.google.com/spreadsheets/d/1h0HBxL735NynvXpIgmtua-zoRcw4RXfG9KpbsCWF0wU/edit?gid=0#gid=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
+                >
+                  Content Tracker
+                </a>
+                <a
+                  href="https://docs.google.com/spreadsheets/d/1VIFDj7O1b_5gCLr9pHd7Si_-cdsilc93jYeiAXTw1T0/edit?gid=2001#gid=2001"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
+                >
+                  Web and Apps Task Tracker
+                </a>
+                <a
+                  href="https://forms.gle/z7qf1F9JKcRbu99y5"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
+                >
+                  BP Form
+                </a>
+                <a
                   href="https://docs.google.com/spreadsheets/d/1zf2Nns8y5KXX_l06gtBfnPiGgnfUL_9VctVKJZXn45s/edit?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
