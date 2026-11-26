@@ -18,13 +18,13 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 shrink-0 bg-[#0c0c0e] border-r border-[#1e1e22] flex flex-col justify-between p-6 h-screen sticky top-0 select-none">
-      <div>
-        <h1 className="text-xl font-bold tracking-tight text-white mb-8">
+    <aside className="flex max-h-[55svh] w-full shrink-0 flex-col bg-[#0c0c0e] border-b border-[#1e1e22] p-4 select-none md:h-dvh md:max-h-none md:w-64 md:border-b-0 md:border-r md:p-6">
+      <div className="flex min-h-0 flex-1 flex-col">
+        <h1 className="mb-4 shrink-0 text-xl font-bold tracking-tight text-white md:mb-8">
           Employee Management System
         </h1>
 
-        <nav className="space-y-1.5">
+        <nav aria-label="Admin navigation" className="min-h-0 flex-1 space-y-1.5 overflow-y-auto overscroll-contain pr-1">
           {navItems.map((item) => {
             const isActive = pathname === item.path;
             return (
@@ -148,7 +148,7 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      <div className="flex items-center justify-between pt-4 border-t border-[#1e1e22]">
+      <div className="flex shrink-0 items-center justify-between border-t border-[#1e1e22] pt-3 mt-3 md:pt-4 md:mt-4">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-zinc-800 text-white flex items-center justify-center font-bold text-xs ring-1 ring-zinc-700">
             N
