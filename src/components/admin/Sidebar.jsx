@@ -124,7 +124,7 @@ export default function Sidebar() {
                   rel="noopener noreferrer"
                   className="block rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-[#18181b] hover:text-white"
                 >
-                  All Payments
+                  Daily Leads Update
                 </a>
                 <a
                   href="https://docs.google.com/spreadsheets/d/1PF9VEfgD_U13PZCKjykaLX8f9JQiRLv7/edit?gid=924638707#gid=924638707"
